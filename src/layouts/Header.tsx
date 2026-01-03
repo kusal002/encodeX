@@ -1,33 +1,30 @@
+import { FiMenu } from "react-icons/fi";
 
+type HeaderProps = {
+  onMenuClick: () => void;
+};
 
-export default function Header() {
-  // const { theme, toggleTheme } = useTheme();
-
+export default function Header({ onMenuClick }: HeaderProps) {
   return (
     <header className="w-full px-6 py-4 flex items-center justify-between">
-      {/* App Title */}
+      {/* Mobile menu button */}
+      <button
+        onClick={onMenuClick}
+        className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition"
+        aria-label="Open sidebar"
+      >
+        <FiMenu size={22} />
+      </button>
+
+      {/* App title */}
       <h1 className="text-xl font-semibold tracking-tight">
-         EncodeX
+        EncodeX
       </h1>
 
-      {/* Theme Toggle */}
-       <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-500">Local · Secure</span>
-           {/* <button
-        onClick={toggleTheme}
-        title="Toggle theme"
-        className="
-          p-2 rounded-full
-          bg-white/30 dark:bg-white/10
-          backdrop-blur-md
-          hover:scale-105 active:scale-95
-          transition
-        "
-      >
-        {theme === "light" ? <FiMoon size={18} /> : <FiSun size={18} />}
-      </button> */}
-        </div>
-     
+      {/* Right side */}
+      <span className="text-sm text-gray-500 hidden sm:block">
+        Local · Secure
+      </span>
     </header>
   );
 }

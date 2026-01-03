@@ -21,6 +21,7 @@ export default function App() {
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
   const [error, setError] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // History state (persistent in localStorage)
   const [history, setHistory] = useState<HistoryItem[]>(() => {
@@ -64,7 +65,11 @@ export default function App() {
   }, [inputText, mode]);
 
   // Add item to history (keep last 20 entries)
-  const addHistory = (input: string, output: string, mode: "encode" | "decode") => {
+  const addHistory = (
+    input: string,
+    output: string,
+    mode: "encode" | "decode"
+  ) => {
     const newItem: HistoryItem = {
       id: Date.now().toString(),
       input,
@@ -74,7 +79,10 @@ export default function App() {
     };
 
     setHistory((prev) => {
-      const updated = [newItem, ...prev.filter((h) => h.input !== input)].slice(0, 20);
+      const updated = [newItem, ...prev.filter((h) => h.input !== input)].slice(
+        0,
+        20
+      );
       localStorage.setItem("history", JSON.stringify(updated));
       return updated;
     });
@@ -92,7 +100,9 @@ export default function App() {
   // Clear all history with confirmation
   const handleClearAllHistory = () => {
     if (history.length === 0) return;
-    const confirmed = window.confirm("Are you sure you want to clear all history?");
+    const confirmed = window.confirm(
+      "Are you sure you want to clear all history?"
+    );
     if (!confirmed) return;
 
     setHistory([]);
@@ -118,7 +128,7 @@ export default function App() {
   return (
     <MainLayout>
       <div className="flex-1 flex flex-col">
-        <Header />
+        <Header onMenuClick={() => setSidebarOpen(true)} />
 
         <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-10">
           {/* Centered Mode Toggle */}
@@ -169,12 +179,38 @@ export default function App() {
       </div>
 
       {/* Sidebar with history */}
-      <Sidebar
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      <div
+        className={`
+    fixed lg:static z-50 h-full
+    transform transition-transform duration-300
+    ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+    lg:translate-x-0
+  `}
+      >
+        <Sidebar
+          history={history}
+          onSelect={(item) => {
+            handleSelectHistory(item);
+            setSidebarOpen(false);
+          }}
+          onDelete={handleDeleteHistory}
+          onClearAll={handleClearAllHistory}
+        />
+      </div>
+
+      {/* <Sidebar
         history={history}
         onSelect={handleSelectHistory}
         onDelete={handleDeleteHistory}
         onClearAll={handleClearAllHistory}
-      />
+      /> */}
     </MainLayout>
   );
 }

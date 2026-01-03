@@ -1,8 +1,13 @@
 import { useState } from "react";
 import ThreeBackground from "../components/ThreeBackground";
+import logo_img from "../assets/logo.png";
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
-    const [showDisclaimer, setShowDisclaimer] = useState(true);
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [showDisclaimer, setShowDisclaimer] = useState(true);
   return (
     <div
       className="
@@ -21,22 +26,27 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.04] dark:opacity-[0.06] z-1"
         style={{
-          backgroundImage:
-            "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"120\"><filter id=\"n\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.8\" numOctaves=\"4\"/></filter><rect width=\"120\" height=\"120\" filter=\"url(%23n)\" opacity=\"0.4\"/></svg>')",
+          backgroundImage: `url(${logo_img})`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "auto",
         }}
+        // style={{
+        //   backgroundImage:
+        //     "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"120\"><filter id=\"n\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.8\" numOctaves=\"4\"/></filter><rect width=\"120\" height=\"120\" filter=\"url(%23n)\" opacity=\"0.4\"/></svg>')",
+        // }}
       />
 
       {/* 🧱 App Content */}
-      <div className="relative z-2 flex w-full">
-        {children}
-      </div>
-        {showDisclaimer && (
+      <div className="relative z-2 flex w-full">{children}</div>
+      {showDisclaimer && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="bg-white/20 dark:bg-gray-900/60 rounded-xl p-8 max-w-md w-[90%] text-center shadow-lg border border-white/30">
-            <h2 className="text-2xl font-bold mb-4">🔐 Welcome to EncodeX Fun!</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              🔐 Welcome to EncodeX Fun!
+            </h2>
             <p className="mb-6 text-sm sm:text-base">
-              Encode your secrets, decode the mysteries, and have fun exploring strings in Base64!  
-              🚀 Let's get started!
+              Encode your secrets, decode the mysteries, and have fun exploring
+              strings in Base64! 🚀 Let's get started!
             </p>
             <button
               onClick={() => setShowDisclaimer(false)}
@@ -48,6 +58,5 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         </div>
       )}
     </div>
-    
   );
 }

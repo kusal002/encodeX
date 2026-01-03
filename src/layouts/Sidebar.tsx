@@ -9,7 +9,12 @@ type SidebarProps = {
   onClearAll: () => void;
 };
 
-export default function Sidebar({ history, onSelect, onDelete, onClearAll }: SidebarProps) {
+export default function Sidebar({
+  history,
+  onSelect,
+  onDelete,
+  onClearAll,
+}: SidebarProps) {
   const [filter, setFilter] = useState<"all" | "encode" | "decode">("all");
 
   // Filtered history based on toggle
@@ -17,8 +22,10 @@ export default function Sidebar({ history, onSelect, onDelete, onClearAll }: Sid
     filter === "all" ? history : history.filter((h) => h.mode === filter);
 
   return (
-    <aside className="hidden lg:flex w-80 border-l border-border bg-surface/80 backdrop-blur-xl flex-col p-4">
-      <h2 className="text-sm font-medium text-muted mb-4 tracking-wide uppercase">History</h2>
+    <aside className="flex w-80 border-l border-border bg-surface/80 backdrop-blur-xl flex-col p-4 h-full">
+      <h2 className="text-sm font-medium text-muted mb-4 tracking-wide uppercase">
+        History
+      </h2>
 
       {/* Filter toggle */}
       <div className="flex gap-2 mb-4">
@@ -39,14 +46,13 @@ export default function Sidebar({ history, onSelect, onDelete, onClearAll }: Sid
 
       {/* Clear All button */}
       {history.length > 0 && (
-       <button
-  onClick={onClearAll}
-  className="mb-2 px-2 py-1 text-xs text-red-600 hover:text-red-700 hover:underline self-start flex items-center gap-1 transition"
->
-  <FiTrash2 className="text-sm" />
-  <span>Clear All</span>
-</button>
-
+        <button
+          onClick={onClearAll}
+          className="mb-2 px-2 py-1 text-xs text-red-600 hover:text-red-700 hover:underline self-start flex items-center gap-1 transition"
+        >
+          <FiTrash2 className="text-sm" />
+          <span>Clear All</span>
+        </button>
       )}
 
       <div className="flex-1 space-y-2 overflow-y-auto scroll-smooth">
@@ -66,7 +72,7 @@ export default function Sidebar({ history, onSelect, onDelete, onClearAll }: Sid
                 className="absolute top-2 right-2 text-red-500 hover:text-red-700 text-lg"
                 title="Delete"
               >
-                 <FiTrash2 />
+                <FiTrash2 />
               </button>
 
               <div
